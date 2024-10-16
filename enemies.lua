@@ -309,8 +309,8 @@ function Enemies.draw()
                 love.graphics.draw(mine.explosion_image[frameArrondie], mine.x, mine.y, 0, 1, 1, mine.explosion_image[frameArrondie]:getWidth()/2, mine.explosion_image[frameArrondie]:getHeight()/2)
             end
         end
-        love.graphics.print(current_enemy.state, current_enemy.x - 10, current_enemy.y - 10)
-        love.graphics.print(current_enemy.status, current_enemy.x - 10, current_enemy.y - 20)
+        -- love.graphics.print(current_enemy.state, current_enemy.x - 10, current_enemy.y - 10)
+        -- love.graphics.print(current_enemy.status, current_enemy.x - 10, current_enemy.y - 20)
     end
     -- local sDebug = "Debug:"
     -- sDebug = sDebug.." targeted_rotation= "..tostring(Enemies.list[1].targeted_rotation)
