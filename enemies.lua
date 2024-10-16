@@ -47,7 +47,7 @@ function Enemies.update(_dt, _map)
                 enemy.targeted_rotation = enemy.weapon_rotation
                 -- try to avoid obstacles
                 if enemy.collided then
-                    enemy.targeted_rotation = enemy.rotation + 90
+                    enemy.targeted_rotation = enemy.rotation + 60
                     if enemy.targeted_rotation > 360 then enemy.targeted_rotation = enemy.targeted_rotation - 360 end
                 end
             end
@@ -65,17 +65,17 @@ function Enemies.update(_dt, _map)
             -- calcul difference between actual rotation and the desired rotation
             local difference = enemy.rotation - enemy.targeted_rotation
 
-            if difference < -180 or (difference > 0 and difference < 180) then
+            if difference <= -180 or (difference >= 0 and difference <= 180) then
                 -- turn left
                 enemy.rotation = enemy.rotation - (enemy.rotation_speed * _dt)
                 enemy.weapon_rotation = enemy.weapon_rotation - (enemy.rotation_speed * _dt)
                 
                 -- normalizes angle
-                if enemy.rotation < 0 then enemy.rotation = 360 end
-                if enemy.weapon_rotation < 0 then enemy.weapon_rotation = 360 end
+                if enemy.rotation <= 0 then enemy.rotation = 360 end
+                if enemy.weapon_rotation <= 0 then enemy.weapon_rotation = 360 end
 
                 -- the desired rotation is reached, go to move state
-                if (enemy.rotation - enemy.targeted_rotation) < 0 and difference > -180 then 
+                if (enemy.rotation - enemy.targeted_rotation) <= 0 and difference >= -180 then 
                     if enemy.status == E_STATES.FIXING then 
                         enemy.state = E_STATES.FIXING
                     else
@@ -88,11 +88,11 @@ function Enemies.update(_dt, _map)
                 enemy.weapon_rotation = enemy.weapon_rotation + (enemy.rotation_speed * _dt)
                 
                 -- normalizes angle
-                if enemy.rotation > 360 then enemy.rotation = 0 end
-                if enemy.weapon_rotation > 360 then enemy.weapon_rotation = 0 end
+                if enemy.rotation >= 360 then enemy.rotation = 0 end
+                if enemy.weapon_rotation >= 360 then enemy.weapon_rotation = 0 end
 
                 -- the desired rotation is reached, go to move state
-                if (enemy.rotation - enemy.targeted_rotation) > 0 and difference < 180 then
+                if (enemy.rotation - enemy.targeted_rotation) >= 0 and difference <= 180 then
                     if enemy.status == E_STATES.FIXING then 
                         enemy.state = E_STATES.FIXING
                     else
@@ -309,8 +309,8 @@ function Enemies.draw()
                 love.graphics.draw(mine.explosion_image[frameArrondie], mine.x, mine.y, 0, 1, 1, mine.explosion_image[frameArrondie]:getWidth()/2, mine.explosion_image[frameArrondie]:getHeight()/2)
             end
         end
-        -- love.graphics.print(current_enemy.state, current_enemy.x - 10, current_enemy.y - 10)
-        -- love.graphics.print(current_enemy.status, current_enemy.x - 10, current_enemy.y - 20)
+        love.graphics.print(current_enemy.state, current_enemy.x - 10, current_enemy.y - 10)
+        love.graphics.print(current_enemy.status, current_enemy.x - 10, current_enemy.y - 20)
     end
     -- local sDebug = "Debug:"
     -- sDebug = sDebug.." targeted_rotation= "..tostring(Enemies.list[1].targeted_rotation)

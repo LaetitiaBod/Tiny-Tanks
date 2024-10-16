@@ -112,21 +112,11 @@ function Bullets.BulletCollisions(_src, _map, _current_bullet, _k, _old_row, _ol
         end
     end
 
-    -- collisions with other bullets
-    for k, bullet in ipairs(_src.list_bullets) do
-        if k ~= _k then
-            -- when a bullet hits another bullet, destroy the bullets
-            if math.dist(bullet.x, bullet.y, _current_bullet.x, _current_bullet.y) < 10 then
-                    table.remove(_src.list_bullets, _k)
-                    table.remove(_src.list_bullets, k)
-            break
-            end
-        end
-    end
-
     -- collisions with the player
     if math.dist(_character.x, _character.y, _current_bullet.x, _current_bullet.y) < _character.body:getHeight()/2 then
-        table.remove(_src.list_bullets, _k)
+        if _k >= 1 and _k <= #_src.list_bullets then
+            table.remove(_src.list_bullets, _k)
+        end
         -- kill the player
         if not GOD_MODE then
             SCENE = "gameover"
@@ -137,7 +127,9 @@ function Bullets.BulletCollisions(_src, _map, _current_bullet, _k, _old_row, _ol
     for _, enemy in ipairs(_enemies.list) do
         if math.dist(enemy.x, enemy.y, _current_bullet.x, _current_bullet.y) < enemy.body:getHeight()/2 then
             if _src == _character then -- only the player can break enemies
-                table.remove(_src.list_bullets, _k)
+                if _k >= 1 and _k <= #_src.list_bullets then
+                    table.remove(_src.list_bullets, _k)
+                end
                 
                 enemy.state = E_STATES.BROKEN
                 -- check if all the enemies are broken
